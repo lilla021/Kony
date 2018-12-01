@@ -1,0 +1,4 @@
+﻿  Driver.cpp
+c:\users\p_courn\source\repos\konya3\konya3\driver.cpp(16): warning C4018: '<': signed/unsigned mismatch
+c:\users\p_courn\source\repos\konya3\konya3\driver.cpp(499): warning C4018: '<': signed/unsigned mismatch
+  KonyA3.vcxproj -> C:\Users\P_courn\source\repos\KonyA3\Debug\KonyA3.exe
