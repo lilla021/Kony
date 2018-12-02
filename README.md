@@ -777,7 +777,7 @@ public:
 	MyArray();
 
 	// b.[5 marks] a constructor that takes a statically allocated array as a parameter and copies it into theArray, while making sure 
-	//				that duplicates are removed during the copy(using the isInArray functionâ€”see B.i.(e)).
+	//				that duplicates are removed during the copy(using the isInArray function—see B.i.(e)).
 
 	MyArray(int array[]);
 
@@ -827,7 +827,7 @@ MyArray::MyArray()
 }
 
 // b.[5 marks] a constructor that takes a statically allocated array as a parameter and copies it into theArray, while making sure 
-//				that duplicates are removed during the copy(using the isInArray functionâ€”see B.i.(e)).
+//				that duplicates are removed during the copy(using the isInArray function—see B.i.(e)).
 MyArray::MyArray(int array[])
 {
 	int counter = 0;
@@ -1019,5 +1019,189 @@ int main()
 
 	system("pause");
 	return 0;
+}
+
+
+Q4
+
+Exceptions.h
+
+#pragma once
+
+class Exceptions
+{
+public:
+	Exceptions();
+	//virtual void exception() = 0;
+	~Exceptions();
+};
+
+class SensorException : public Exceptions
+{
+public:
+	SensorException();
+	virtual void exception() = 0;
+	~SensorException();
+
+};
+
+class NegativeSensorException :  public SensorException, Exceptions
+{
+	NegativeSensorException(int &pVal);
+	void exception();
+	~NegativeSensorException();
+};
+
+class OverloadSensorException :  public SensorException, Exceptions
+{
+	OverloadSensorException(int & pVal);
+	void exception();
+	~OverloadSensorException();
+};
+
+
+Exceptions.cpp
+
+#include "Exceptions.h"
+
+Exceptions::Exceptions()
+{
+}
+
+Exceptions::~Exceptions()
+{
+}
+
+SensorException::SensorException()
+{
+}
+
+SensorException::~SensorException()
+{
+}
+
+
+NegativeSensorException::NegativeSensorException(int &pVal)
+{
+
+}
+	
+void NegativeSensorException::exception()
+{
+
+}
+
+NegativeSensorException::~NegativeSensorException()
+{
+}
+
+OverloadSensorException::OverloadSensorException(int &pVal)
+{
+
+}
+	
+void OverloadSensorException::exception() 
+{
+
+}
+
+OverloadSensorException::~OverloadSensorException()
+{
+}
+
+
+
+CarController.cpp
+
+// CarController.cpp
+//THIS FILE SHOULD BE CHANGED, SEE THE CONSTRUCTOR BELOW
+
+#include "CarController.h"
+#include "Sensor.h"
+#include <iostream>
+#include <ctime> 
+
+using namespace std;
+
+CarController::CarController() {
+	state = safe;
+	wheels.push_back(new Wheel(new Sensor(), WheelId::FR));
+	wheels.push_back(new Wheel(new Sensor(), WheelId::FL));
+	// THE TWO REAR WHEELS NEED TO BE CONNECTED TO THE NEW SENSORS 
+	// USING THE ADAPTER
+	wheels.push_back(new Wheel(new Sensor(), WheelId::RR));
+	wheels.push_back(new Wheel(new Sensor(), WheelId::RL));
+	srand(time(0));
+}
+
+void CarController::start() {
+	cout << "in CarController::start()" << state << endl;
+	int pressure;
+	while (state == safe) {
+		for (Wheel* w : wheels) {
+			pressure = w->pressureSensor->getPressure();
+			if (pressure > 240 || pressure < 10) {
+				cout << "abnormal pressure: " << pressure << endl;
+				state = unsafe;
+			}
+		}
+	}
+	cout << "Car usafe to drive!" << endl;
+}
+CarController::~CarController() {
+}
+
+Wheel::Wheel(Sensor* newPressureSensor, WheelId newWid) : pressureSensor(newPressureSensor), wid(newWid) 
+{
+	
+};
+
+SensorExceptionSuppressor.h
+
+#pragma once
+#include "Sensor.h" 
+#include "SensorV2.h"
+
+class SensorExceptionSuppressor : public Sensor
+{
+public:
+	SensorExceptionSuppressor(SensorV2 sensor);
+	void checkPressure(int pressure);
+	~SensorExceptionSuppressor();
+
+private: 
+	SensorV2 newSensor;
+};
+
+
+SensorExceptionSuppresor.cpp
+
+#include "SensorExceptionSuppressor.h"
+#include <ctime> 
+#include <iostream>
+using namespace std;
+
+SensorExceptionSuppressor::SensorExceptionSuppressor(SensorV2 sensor)
+{
+	newSensor = sensor;
+}
+void SensorExceptionSuppressor::checkPressure(int pressure) 
+{
+	int pressure = this->getPressure();
+	try
+	{//normal execution
+		newSensor.getPsi(pressure);
+	}
+	catch (NegativeSensorException exc1)
+	{
+	}
+	catch (OverloadSensorException exc2)
+	{
+	}
+	
+}
+
+SensorExceptionSuppressor::~SensorExceptionSuppressor()
+{
 }
 
