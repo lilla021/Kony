@@ -255,10 +255,15 @@ using namespace std;
 int main()
 {
 	//create animal objects
-	Animal *duck = new Duck();
-	Animal *cat = new Cat();
-	Animal *beaver = new Beaver();
-	Animal *platypus = new Platypus();
+	//Animal *duck = new Duck();
+	//Animal *cat = new Cat();
+	//Animal *beaver = new Beaver();
+	//Animal *platypus = new Platypus();
+	 Duck *duck = new Duck();
+    Cat *cat = new Cat();
+    Beaver *beaver = new Beaver();
+    Platypus *platypus = new Platypus();
+
 
 	//intial testing
 	/*cout << endl << duck->talk();
@@ -777,7 +782,7 @@ public:
 	MyArray();
 
 	// b.[5 marks] a constructor that takes a statically allocated array as a parameter and copies it into theArray, while making sure 
-	//				that duplicates are removed during the copy(using the isInArray function—see B.i.(e)).
+	//				that duplicates are removed during the copy(using the isInArray functionï¿½see B.i.(e)).
 
 	MyArray(int array[]);
 
@@ -827,7 +832,7 @@ MyArray::MyArray()
 }
 
 // b.[5 marks] a constructor that takes a statically allocated array as a parameter and copies it into theArray, while making sure 
-//				that duplicates are removed during the copy(using the isInArray function—see B.i.(e)).
+//				that duplicates are removed during the copy(using the isInArray functionï¿½see B.i.(e)).
 MyArray::MyArray(int array[])
 {
 	int counter = 0;
