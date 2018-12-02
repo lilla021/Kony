@@ -286,7 +286,20 @@ int main()
 	{
 		cout << animals[i]->talk();
 	}
+duck = NULL;
+	delete duck;
+	cat = NULL;
+	delete cat; 
+	beaver = NULL;
+	delete beaver;
+	platypus = NULL;
+	delete platypus;
 
+	for (int i = 0; i < 4; i++)
+	{
+		animals[i] = NULL;
+		delete animals[i];
+	}
 
 	system("pause");
 	return 0;
